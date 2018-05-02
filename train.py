@@ -31,7 +31,7 @@ opt = parser.parse_args()
 
 print(opt)
 
-
+# build output dir
 try:
     os.makedirs(opt.outpath)
 except OSError:
@@ -67,17 +67,21 @@ def dice_loss(input,target):
     return dice_total
 
 
-
+# check GPU existence
 cuda = opt.cuda
 if cuda and not torch.cuda.is_available():
     raise Exception("No GPU found, please run without --cuda")
 
+# set random seed for pytorch or gpu of pytorch
 torch.manual_seed(opt.seed)
 if cuda:
     torch.cuda.manual_seed(opt.seed)
 
+# automatic optimization
 cudnn.benchmark = True
 print('===> Building model')
+
+
 NetS = NetS(ngpu = opt.ngpu)
 # NetS.apply(weights_init)
 print(NetS)

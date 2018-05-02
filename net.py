@@ -109,12 +109,15 @@ class ResidualBlock_D(nn.Module):
 
 
 class NetS(nn.Module):
+    # nn.Module: base class for all neural network modules
     def __init__(self, ngpu):
         super(NetS, self).__init__()
         self.ngpu = ngpu
         self.convblock1 = nn.Sequential(
             # input is (channel_dim) x 128 x 128
             nn.Conv2d(channel_dim, ndf, 7, 2, 3, bias=False),
+            # (in_channels, out_channels, kernel_size, stride=1, padding=0, 
+            # dilation=1, groups=1, bias=True)
             nn.LeakyReLU(0.2, inplace=True),
             # state size. (ndf) x 64 x 64
         )
