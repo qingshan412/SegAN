@@ -111,10 +111,12 @@ for epoch in range(opt.niter):
     for i, data in enumerate(dataloader, 1):
         #train C
         NetC.zero_grad() #clear grads at the beginning of every iter
-        input, label = Variable(data[0]), Variable(data[1]) #deprecated but still work
+        # input, label = Variable(data[0]), Variable(data[1]) #deprecated but still work
+        input, target = Variable(data[0]), Variable(data[1]) #deprecated but still work
         if cuda:
             input = input.cuda()
-            target = label.cuda()
+            # target = label.cuda()
+            target = target.cuda()
         target = target.type(torch.FloatTensor) #int2float
         target = target.cuda()
         output = NetS(input) #generator
