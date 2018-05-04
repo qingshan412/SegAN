@@ -18,8 +18,8 @@ class Dataset(torch.utils.data.Dataset):
         self.root = root
         if not os.path.exists(self.root):
             raise Exception("[!] {} not exists.".format(root))
-        self.img_resize = Compose([
-            Scale(self.size, Image.BILINEAR),
+        self.img_resize = Compose([ #like torch.nn.Sequential
+            Scale(self.size, Image.BILINEAR), #deprecated in favor of Resize
             # We can do some colorjitter augmentation here
             # ColorJitter(brightness=0, contrast=0, saturation=0, hue=0),
         ])

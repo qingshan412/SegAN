@@ -281,7 +281,6 @@ class NetS(nn.Module):
                 if m.bias is not None:
                     m.bias.data.zero_()
 
-
     def forward(self, input):
         # for now it only supports one GPU
         if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu is 1:

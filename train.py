@@ -81,7 +81,7 @@ if cuda:
 cudnn.benchmark = True
 print('===> Building model')
 
-
+# networks initialization
 NetS = NetS(ngpu = opt.ngpu)
 # NetS.apply(weights_init)
 print(NetS)
@@ -110,14 +110,14 @@ NetS.train()
 for epoch in range(opt.niter):
     for i, data in enumerate(dataloader, 1):
         #train C
-        NetC.zero_grad()
-        input, label = Variable(data[0]), Variable(data[1])
+        NetC.zero_grad() #clear grads at the beginning of every iter
+        input, label = Variable(data[0]), Variable(data[1]) #deprecated but still work
         if cuda:
             input = input.cuda()
             target = label.cuda()
-        target = target.type(torch.FloatTensor)
+        target = target.type(torch.FloatTensor) #int2float
         target = target.cuda()
-        output = NetS(input)
+        output = NetS(input) #generator
         #output = F.sigmoid(output*k)
         output = F.sigmoid(output)
         output = output.detach()
@@ -128,19 +128,23 @@ for epoch in range(opt.niter):
             output_masked[:,d,:,:] = input_mask[:,d,:,:].unsqueeze(1) * output
         if cuda:
             output_masked = output_masked.cuda()
-        result = NetC(output_masked)
+        result = NetC(output_masked) #discriminator_fake
+
         target_masked = input.clone()
         for d in range(3):
             target_masked[:,d,:,:] = input_mask[:,d,:,:].unsqueeze(1) * target
         if cuda:
             target_masked = target_masked.cuda()
-        target_D = NetC(target_masked)
-        loss_D = - torch.mean(torch.abs(result - target_D))
-        loss_D.backward()
-        optimizerD.step()
+        target_D = NetC(target_masked) #discriminator_real
+
+        loss_D = - torch.mean(torch.abs(result - target_D)) #L_1 loss
+        loss_D.backward() #accumulate grad
+        optimizerD.step() #one step optimization based on grad
+
         #clip parameters in D
         for p in NetC.parameters():
             p.data.clamp_(-0.05, 0.05)
+        
         #train G
         NetS.zero_grad()
         output = NetS(input)
