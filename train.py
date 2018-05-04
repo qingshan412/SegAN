@@ -118,7 +118,7 @@ for epoch in range(opt.niter):
             # target = label.cuda()
             target = target.cuda()
         target = target.type(torch.FloatTensor) #int2float
-        target = target.cuda()
+        #target = target.cuda()
         output = NetS(input) #generator
         #output = F.sigmoid(output*k)
         output = F.sigmoid(output)
