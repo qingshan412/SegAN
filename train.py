@@ -163,12 +163,14 @@ for epoch in range(opt.niter):
         output = F.sigmoid(output)
 
         for d in range(3):
-            output_masked[:,d,:,:] = input_mask[:,d,:,:].unsqueeze(1) * output
+            # output_masked[:,d,:,:] = input_mask[:,d,:,:].unsqueeze(1) * output
+            output_masked[:,d,:,:] = input_mask[:,d,:,:] * output.squeeze()
         if cuda:
             output_masked = output_masked.cuda()
         result = NetC(output_masked)
         for d in range(3):
-            target_masked[:,d,:,:] = input_mask[:,d,:,:].unsqueeze(1) * target
+            # target_masked[:,d,:,:] = input_mask[:,d,:,:].unsqueeze(1) * target
+            target_masked[:,d,:,:] = input_mask[:,d,:,:] * target.queeze()
         if cuda:
             target_masked = target_masked.cuda()
         target_G = NetC(target_masked)
