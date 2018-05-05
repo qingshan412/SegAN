@@ -126,12 +126,12 @@ for epoch in range(opt.niter):
         output_masked = input.clone()
         input_mask = input.clone()
         # test
-        print('output_masked_d:')
-        print(output_masked[:,1,:,:].size())
-        print('input_mask_d:')
-        print(input_mask[:,1,:,:].size())
-        print('output:')
-        print(output.squeeze().size())
+        # print('output_masked_d:')
+        # print(output_masked[:,1,:,:].size())
+        # print('input_mask_d:')
+        # print(input_mask[:,1,:,:].size())
+        # print('output:')
+        # print(output.squeeze().size())
         
         #detach G from the network
         for d in range(3):
@@ -140,14 +140,11 @@ for epoch in range(opt.niter):
         if cuda:
             output_masked = output_masked.cuda()
         result = NetC(output_masked) #discriminator_fake
-
-        # test
-        print('target_masked_d:')
-        print(target_masked[:,d,:,:].size())
         
         target_masked = input.clone()
         for d in range(3):
-            target_masked[:,d,:,:] = input_mask[:,d,:,:].unsqueeze(1) * target
+            # target_masked[:,d,:,:] = input_mask[:,d,:,:].unsqueeze(1) * target
+            target_masked[:,d,:,:] = input_mask[:,d,:,:] * target.squeeze()
         if cuda:
             target_masked = target_masked.cuda()
         target_D = NetC(target_masked) #discriminator_real
