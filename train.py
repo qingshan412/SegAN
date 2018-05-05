@@ -126,8 +126,8 @@ for epoch in range(opt.niter):
         output_masked = input.clone()
         input_mask = input.clone()
         # test
-        print('output_masked:')
-        print(output_masked.size())
+        print('output_masked_d:')
+        print(output_masked[:,1,:,:].size())
         
         #detach G from the network
         for d in range(3):
