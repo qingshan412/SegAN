@@ -128,6 +128,10 @@ for epoch in range(opt.niter):
         # test
         print('output_masked_d:')
         print(output_masked[:,1,:,:].size())
+        print('input_mask_d:')
+        print(input_mask[:,1,:,:].size())
+        print('output:')
+        print(output.size())
         
         #detach G from the network
         for d in range(3):
