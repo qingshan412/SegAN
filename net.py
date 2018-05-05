@@ -284,7 +284,7 @@ class NetS(nn.Module):
     def forward(self, input):
         # for now it only supports one GPU
         # if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu is 1:
-        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu <= 1:
+        if self.ngpu <= 1:
             encoder1 = self.convblock1(input)
             encoder1 = self.convblock1_1(encoder1)
             encoder2 = self.convblock2(encoder1)
@@ -443,7 +443,7 @@ class NetC(nn.Module):
 
     def forward(self, input):
         # if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu is 1:
-        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu <= 1:
+        if self.ngpu <= 1:
             batchsize = input.size()[0]
             out1 = self.convblock1(input)
             # out1 = self.convblock1_1(out1)
