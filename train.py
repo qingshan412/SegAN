@@ -131,12 +131,12 @@ for epoch in range(opt.niter):
         print('input_mask_d:')
         print(input_mask[:,1,:,:].size())
         print('output:')
-        print(output.size())
+        print(output.squeeze().size())
         
         #detach G from the network
         for d in range(3):
             #output_masked[:,d,:,:] = input_mask[:,d,:,:].unsqueeze(1) * output
-            output_masked[:,d,:,:] = input_mask[:,d,:,:] * output
+            output_masked[:,d,:,:] = input_mask[:,d,:,:] * output.squeeze()
         if cuda:
             output_masked = output_masked.cuda()
         result = NetC(output_masked) #discriminator_fake
