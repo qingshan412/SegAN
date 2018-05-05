@@ -170,7 +170,7 @@ for epoch in range(opt.niter):
         result = NetC(output_masked)
         for d in range(3):
             # target_masked[:,d,:,:] = input_mask[:,d,:,:].unsqueeze(1) * target
-            target_masked[:,d,:,:] = input_mask[:,d,:,:] * target.queeze()
+            target_masked[:,d,:,:] = input_mask[:,d,:,:] * target.squeeze()
         if cuda:
             target_masked = target_masked.cuda()
         target_G = NetC(target_masked)
