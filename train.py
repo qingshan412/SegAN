@@ -128,8 +128,7 @@ for epoch in range(opt.niter):
         # test
         print('output_masked:')
         print(output_masked.size())
-        print('target_masked:')
-        print(target_masked.size())
+        
         #detach G from the network
         for d in range(3):
             output_masked[:,d,:,:] = input_mask[:,d,:,:].unsqueeze(1) * output
@@ -137,6 +136,10 @@ for epoch in range(opt.niter):
             output_masked = output_masked.cuda()
         result = NetC(output_masked) #discriminator_fake
 
+        # test
+        print('target_masked:')
+        print(target_masked.size())
+        
         target_masked = input.clone()
         for d in range(3):
             target_masked[:,d,:,:] = input_mask[:,d,:,:].unsqueeze(1) * target
